@@ -1,5 +1,7 @@
 import { useUser } from "@clerk/clerk-expo";
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   Alert,
   FlatList,
@@ -9,15 +11,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SignOutButton } from "../../components/SignOutButton";
-import { useTransactions } from "../../hooks/useTransactions";
-import { useEffect, useState } from "react";
-import PageLoader from "../../components/PageLoader";
 import { styles } from "../../assets/styles/home.stles";
-import { Ionicons } from "@expo/vector-icons";
 import BalanceCard from "../../components/BalanceCard";
-import { TransactionItem } from "../../components/TransactionItem";
 import NoTransactionsFound from "../../components/NoTransactionsFound";
+import PageLoader from "../../components/PageLoader";
+import { SignOutButton } from "../../components/SignOutButton";
+import { TransactionItem } from "../../components/TransactionItem";
+import { useTransactions } from "../../hooks/useTransactions";
 
 export default function Page() {
   const { user } = useUser();
@@ -25,7 +25,7 @@ export default function Page() {
 
   const [refreshing, setRefreshing] = useState(false);
 
-  const { transactions, summary, isLoading, loadData, deleteTransactions } =
+  const { transactions, summary, isLoading, loadData, deleteTransaction } =
     useTransactions(user?.id);
 
   const onRefresh = async () => {
@@ -47,7 +47,7 @@ export default function Page() {
         {
           text: "Delete",
           style: "destructive",
-          onPress: () => deleteTransactions(id),
+          onPress: () => deleteTransaction(id),
         },
       ]
     );
